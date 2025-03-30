@@ -7,6 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 
 const Start = ({ navigation }) => {
@@ -16,57 +18,62 @@ const Start = ({ navigation }) => {
   const colors = ['#090C08', '#474056', '#8A95A5', '#B9C6AE'];
 
   return (
-    <View style={styles.container}>
-      {/* Background Image */}
-      <ImageBackground
-        source={require('../images/Background.png')} // Direct require method
-        style={styles.background}
-      >
-        <View style={styles.contentContainer}>
-          {/* App Title */}
-          <Text style={styles.title}>Welcome to ChatApp!</Text>
-          {/* Input and Options Container */}
-          <View style={styles.inputContainer}>
-            {/* TextInput for entering the user's name */}
-            <TextInput
-              style={styles.textInput}
-              value={name}
-              onChangeText={setName}
-              placeholder="Enter Your Name"
-              placeholderTextColor="#757083"
-            />
-            {/* Color Selection Options */}
-            <Text style={styles.colorText}>Choose Background Color:</Text>
-            <View style={styles.colorContainer}>
-              {colors.map((color) => (
-                <TouchableOpacity
-                  key={color}
-                  style={[
-                    styles.colorOption,
-                    { backgroundColor: color },
-                    backgroundColor === color && styles.selectedColor, // Highlight selected color
-                  ]}
-                  onPress={() => setBackgroundColor(color)} // Update selected color
-                />
-              ))}
-            </View>
-            {/* Start Chatting Button */}
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() =>
-                navigation.navigate('Chat', {
-                  name: name || 'User', // Default name if empty
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={styles.container}>
+        {/* Background Image */}
+        <ImageBackground
+          source={require('../images/Background.png')} // Direct require method
+          style={styles.background}
+        >
+          <View style={styles.contentContainer}>
+            {/* App Title */}
+            <Text style={styles.title}>Welcome to ChatApp!</Text>
+            {/* Input and Options Container */}
+            <View style={styles.inputContainer}>
+              {/* TextInput for entering the user's name */}
+              <TextInput
+                style={styles.textInput}
+                value={name}
+                onChangeText={setName}
+                placeholder="Enter Your Name"
+                placeholderTextColor="#757083"
+              />
+              {/* Color Selection Options */}
+              <Text style={styles.colorText}>Choose Background Color:</Text>
+              <View style={styles.colorContainer}>
+                {colors.map((color) => (
+                  <TouchableOpacity
+                    key={color}
+                    style={[
+                      styles.colorOption,
+                      { backgroundColor: color },
+                      backgroundColor === color && styles.selectedColor, // Highlight selected color
+                    ]}
+                    onPress={() => setBackgroundColor(color)} // Update selected color
+                  />
+                ))}
+              </View>
+              {/* Start Chatting Button */}
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate('Chat', {
+                    name: name || 'User', // Default name if empty
 
-                  backgroundColor, // Pass selected color to Chat screen
-                })
-              }
-            >
-              <Text style={styles.buttonText}>Start Chatting</Text>
-            </TouchableOpacity>
+                    backgroundColor, // Pass selected color to Chat screen
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>Start Chatting</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
-    </View>
+        </ImageBackground>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

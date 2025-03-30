@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Bubble, GiftedChat } from 'react-native-gifted-chat';
+import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 
 /*
  * Chat Component
@@ -11,20 +11,63 @@ import { StyleSheet, View, Text } from 'react-native';
 const Chat = ({ route, navigation }) => {
   // Destructure parameters passed from Start screen
   const { name, backgroundColor } = route.params;
+  const [messages, setMessages] = useState([]);
   /*
    * useEffect Hook
-   * Updates the navigation bar title to display the user's name.
-   * Dependencies: [name, navigation]
+   * Initializes default message at component mounting
    */
 
-  useEffect(() => {
-    navigation.setOptions({ title: name || 'Chat' }); // Fallback title if name is empty
-  }, [name, navigation]);
+  useEffect(
+    () => {
+      navigation.setOptions({ title: name || 'Chat' }); // Fallback title if name is empty
+    },
+    setMessages([
+      {
+        _id: 1,
+        text: 'Hello dev-man',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+      {
+        _id: 2,
+        text: 'System Message Example',
+        createdAt: new Date(),
+        system: true,
+      },
+    ])[(name, navigation)]
+  );
+
+  //Function to handle sending messages
+  const onsend = (newMessages = []) => {
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, newMessages)
+    );
+  };
+
+  //Function to customize bubble colors
+  const renderBubble = (props) => {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: '#000',
+          },
+          left: {
+            backGroundColor: '#FFF',
+          },
+        }}
+      />
+    );
+  };
 
   /*
    * Render
-   * The container View sets the background color dynamically.
-   * Placeholder text indicates where future chat functionality will go.
+   * Displays GiftedCHat interface with current messages and onSend handler
    */
 
   return (
@@ -34,9 +77,20 @@ const Chat = ({ route, navigation }) => {
         { backgroundColor: backgroundColor || '#FFFFFF' }, // Fallback to white if no color is provided
       ]}
     >
-      <Text style={styles.placeholderText}>
-        Chat functionality coming soon!
-      </Text>
+      <GiftedChat
+        messages={messages}
+        renderBubble={renderBubble} // Pass custom bubble renderer
+        onSend={(messages) => onSend(messages)}
+        user={{
+          _id: 1, // The current user's ID
+        }}
+      />
+      {Platform.OS === 'android' ? (
+        <KeyboardAvoidingView behavior="height" />
+      ) : null}
+      {Platform.OS === 'ios' ? (
+        <KeyboardAvoidingView behavior="padding" />
+      ) : null}
     </View>
   );
 };
@@ -44,20 +98,12 @@ const Chat = ({ route, navigation }) => {
 /*
  * Styles
  * Define the layout and styling for the Chat screen elements.
- * - container: Centers all content on the screen.
- * - placeholderText: Styles the placeholder text for visual clarity.
+ * - container: Sets background color and full-screen layout.
  */
 
 const styles = StyleSheet.create({
   container: {
     flex: 1, // Ensures the container takes up the full screen
-    justifyContent: 'center', // Centers content vertically
-    alignItems: 'center', // Centers content horizontally
-  },
-
-  placeholderText: {
-    fontSize: 18, // Sets the font size for the placeholder
-    color: '#757083', // Matches the neutral color scheme
   },
 });
 

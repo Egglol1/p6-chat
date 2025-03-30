@@ -42,7 +42,7 @@ const Chat = ({ route, navigation }) => {
   );
 
   //Function to handle sending messages
-  const onsend = (newMessages = []) => {
+  const onSend = (newMessages = []) => {
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, newMessages)
     );

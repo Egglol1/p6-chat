@@ -24,7 +24,7 @@ const Start = ({ navigation }) => {
       <View style={styles.container}>
         {/* Background Image */}
         <ImageBackground
-          source={require('../images/Background.png')} // Direct require method
+          source={require('../assets/background.png')} // Direct require method
           style={styles.background}
         >
           <View style={styles.contentContainer}>

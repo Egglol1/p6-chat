@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import screen components
 import Start from './components/Start.js';
-import Chat from './components/chat.js';
+import Chat from './components/Chat.js';
 // Create the stack navigator
 const Stack = createNativeStackNavigator();
 

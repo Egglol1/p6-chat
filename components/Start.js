@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   StyleSheet,
   View,
@@ -62,7 +61,6 @@ const Start = ({ navigation }) => {
                 onPress={() =>
                   navigation.navigate('Chat', {
                     name: name || 'User', // Default name if empty
-
                     backgroundColor, // Pass selected color to Chat screen
                   })
                 }
@@ -123,32 +121,27 @@ const styles = StyleSheet.create({
     color: '#757083',
     marginBottom: 10,
   },
-
   colorContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '80%',
     marginBottom: 20,
   },
-
   colorOption: {
     width: 50,
     height: 50,
     borderRadius: 25, // Makes the button circular
   },
-
   selectedColor: {
     borderWidth: 2,
     borderColor: '#757083', // Highlights selected color
   },
-
   button: {
     backgroundColor: '#757083',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
   },
-
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
